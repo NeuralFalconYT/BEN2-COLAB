@@ -168,6 +168,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = BEN2.BEN_Base().to(device).eval() #init pipeline
 model.loadcheckpoints("./BEN2_Base.pth")
 #@title Run Gradio Interface
+#@title Run Gradio Interface
 import gradio as gr
 import click
 @click.command()
@@ -177,15 +178,17 @@ def main(debug, share):
   description = """BEN2 for Background Removal<br>
   <span style='font-size: 16px;'>HuggingFace model page: <a href='https://huggingface.co/PramaLLC/BEN2' target='_blank'>BEN2</a></span>
   """
-
+  example = [["./Demo.jpeg"],["./Demo2.jpeg"]]
   # Define Gradio inputs and outputs
   image_demo_inputs=[gr.File(label="Upload Single or Multiple Images",file_count="multiple",file_types=['image'],type='filepath')]
   image_demo_outputs=[gr.File(label="Download Image or Zip File", show_label=True),gr.Image(label="Result")]
-  image_demo = gr.Interface(fn=manage_files, inputs=image_demo_inputs,outputs=image_demo_outputs,title="Remove Image Background (Support Batch image processing)")
+  image_demo = gr.Interface(fn=manage_files, inputs=image_demo_inputs,outputs=image_demo_outputs,title="Remove Image Background (Support Batch image processing)",examples=example)
   video_demo_inputs=[gr.File(label="Upload a Video",file_types=['.mp4'],type='filepath')]
   video_demo_outputs=[gr.File(label="Download Video", show_label=True),gr.Video(label="Green Screen Video")]
   video_demo = gr.Interface(fn=remove_background_from_video, inputs=video_demo_inputs,outputs=video_demo_outputs, title="Remove Video Background (Make Green Screen Video)")
   demo = gr.TabbedInterface([image_demo,video_demo], ["Remove Image Background", "Remove Video Background"],title=description)
-  demo.queue().launch(allowed_paths=[f"{base_path}/result",f"{base_path}/temp"],debug=debug,share=share)
+  demo.queue().launch(allowed_paths=[f"{base_path}/result",f"{base_path}/temp",base_path],debug=debug,share=share)
 if __name__ == "__main__":
     main()
+
+
