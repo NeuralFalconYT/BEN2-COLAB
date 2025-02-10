@@ -178,11 +178,10 @@ def main(debug, share):
   description = """BEN2 for Background Removal<br>
   <span style='font-size: 16px;'>HuggingFace model page: <a href='https://huggingface.co/PramaLLC/BEN2' target='_blank'>BEN2</a></span>
   """
-  example = [["./Demo.jpeg"],["./Demo2.jpeg"]]
   # Define Gradio inputs and outputs
   image_demo_inputs=[gr.File(label="Upload Single or Multiple Images",file_count="multiple",file_types=['image'],type='filepath')]
   image_demo_outputs=[gr.File(label="Download Image or Zip File", show_label=True),gr.Image(label="Result")]
-  image_demo = gr.Interface(fn=manage_files, inputs=image_demo_inputs,outputs=image_demo_outputs,title="Remove Image Background (Support Batch image processing)",examples=example)
+  image_demo = gr.Interface(fn=manage_files, inputs=image_demo_inputs,outputs=image_demo_outputs,title="Remove Image Background (Support Batch image processing)")
   video_demo_inputs=[gr.File(label="Upload a Video",file_types=['.mp4'],type='filepath')]
   video_demo_outputs=[gr.File(label="Download Video", show_label=True),gr.Video(label="Green Screen Video")]
   video_demo = gr.Interface(fn=remove_background_from_video, inputs=video_demo_inputs,outputs=video_demo_outputs, title="Remove Video Background (Make Green Screen Video)")
